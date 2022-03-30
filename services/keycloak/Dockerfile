@@ -41,10 +41,11 @@ ENV TMPDIR=/tmp \
     ENV=/home/.bashrc \
     # When Bash is invoked as non-interactive (like `bash -c command`) it sources a file that is given in `BASH_ENV`
     BASH_ENV=/home/.bashrc \
-    KEYCLOAK_ADMIN_USER=admin \
-    KEYCLOAK_ADMIN_PASSWORD=admin \
+    KEYCLOAK_USER=admin \
+    KEYCLOAK_PASSWORD=admin \
     KEYCLOAK_REALM=lagoon \
     KEYCLOAK_REALM_ROLES=admin \
+    DB_VENDOR=mariadb \
     DB_ADDR=keycloak-db \
     DB_USER=keycloak \
     DB_PASSWORD=keycloak \
@@ -58,9 +59,10 @@ ENV TMPDIR=/tmp \
 
 VOLUME /opt/jboss/keycloak/standalone/data
 
-COPY start.sh /opt/jboss/tools/start.sh
-COPY wait-for-mariadb.sh /lagoon/entrypoints/99-wait-for-mariadb.sh
+COPY entrypoints/wait-for-mariadb.sh /lagoon/entrypoints/99-wait-for-mariadb.sh
+COPY entrypoints/default-keycloak-entrypoint.sh /lagoon/entrypoints/9999-default-keycloak-entrypoint.sh
+COPY startup-scripts /opt/jboss/startup-scripts
 COPY profile.properties /opt/jboss/keycloak/standalone/configuration/profile.properties
 
 ENTRYPOINT ["/sbin/tini", "--", "/lagoon/entrypoints.bash"]
-CMD ["/opt/jboss/tools/start.sh"]
+CMD ["-b", "0.0.0.0"]
