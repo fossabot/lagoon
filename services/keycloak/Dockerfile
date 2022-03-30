@@ -41,8 +41,8 @@ ENV TMPDIR=/tmp \
     ENV=/home/.bashrc \
     # When Bash is invoked as non-interactive (like `bash -c command`) it sources a file that is given in `BASH_ENV`
     BASH_ENV=/home/.bashrc \
-    KEYCLOAK_USER=admin \
-    KEYCLOAK_PASSWORD=admin \
+    KEYCLOAK_ADMIN_USER=admin \
+    KEYCLOAK_ADMIN_PASSWORD=admin \
     KEYCLOAK_REALM=lagoon \
     KEYCLOAK_REALM_ROLES=admin \
     DB_VENDOR=mariadb \
@@ -56,6 +56,9 @@ ENV TMPDIR=/tmp \
     KEYCLOAK_API_CLIENT_SECRET=39d5282d-3684-4026-b4ed-04bbc034b61a \
     KEYCLOAK_AUTH_SERVER_CLIENT_SECRET=f605b150-7636-4447-abd3-70988786b330 \
     JAVA_OPTS="-server -Xms2048m -Xmx4096m -XX:MetaspaceSize=96M -XX:MaxMetaspaceSize=256m -Djava.net.preferIPv4Stack=true -Djboss.modules.system.pkgs=org.jboss.byteman -Djava.awt.headless=true"
+
+ENV KEYCLOAK_USER=${KEYCLOAK_ADMIN_USER} \
+    KEYCLOAK_PASSWORD=${KEYCLOAK_ADMIN_PASSWORD}
 
 VOLUME /opt/jboss/keycloak/standalone/data
 
